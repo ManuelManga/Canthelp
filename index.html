@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can't Help Falling in Love</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('fondo.jpg'); /* Cambia 'fondo.jpg' por la ruta de tu imagen */
+            background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
+            background-position: center; /* Centra la imagen en el fondo */
+            background-attachment: fixed; /* Fija el fondo para que no se mueva con el scroll */
+            color: white;
+            font-family: 'Dancing Script', cursive; /* Aplica la fuente Dancing Script aquí */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            width: 90%; /* Ajusta el ancho del contenedor */
+            max-width: 800px; /* Tamaño máximo del contenedor */
+            height: auto; /* Ajusta la altura automáticamente */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .lyrics {
+            font-size: 23px; /* Tamaño de la fuente más pequeño para pantallas pequeñas */
+            font-weight: bold; /* Letras en negrita */
+            color: white; /* Color de texto blanco */
+            position: relative;
+            margin: 0 auto; /* Centra el texto horizontalmente */
+            padding: 10px; /* Agrega padding para que el texto no esté pegado a los bordes */
+            width: 100%;
+            text-align: center; /* Alineación central horizontal */
+        }
+
+        .current-line {
+            color: yellow; /* Color de la línea actual */
+        }
+
+        .lyrics p {
+            margin: 10px 0; /* Espaciado entre líneas */
+            opacity: 0; /* Inicialmente invisible */
+            transition: opacity 1s ease-in-out; /* Transición para la opacidad */
+        }
+
+        .audio-button {
+            position: fixed;
+            bottom: 20px; /* Alinea el botón en la parte inferior */
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 100; /* Asegura que el botón esté por encima del contenido */
+        }
+
+        .audio-button:hover {
+            background-color: #666;
+        }
+
+        /* Estilo para los corazones */
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Para que no interfiera con el clic en otros elementos */
+            overflow: hidden;
+            z-index: 50; /* Asegura que los corazones estén por debajo del contenido principal */
+        }
+
+        .heart {
+            position: absolute;
+            width: 30px; /* Tamaño de los corazones */
+            height: 30px;
+            background-size: cover; /* Asegura que la imagen cubra el div */
+            opacity: 0;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100vh + 50px));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="audio-button" id="playButton">Play</button>
+        <audio id="audioPlayer">
+            <source src="cancion.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+        <div class="lyrics" id="lyrics">
+            <p id="line1">Wise men say only fools rush in</p>
+            <p id="line2">But I can't help falling in love with you</p>
+            <p id="line3">Shall I stay? Would it be a sin?</p>
+            <p id="line4">If I can't help falling in love with you</p>
+            <p id="line5">Like a river flows surely to the sea</p>
+            <p id="line6">Darling, so it goes, some things are meant to be</p>
+            <p id="line7">Take my hand, take my whole life too</p>
+            <p id="line8">For I can't help falling in love with you</p>
+            <p id="line9">Like a river flows surely to the sea</p>
+            <p id="line10">Darling, so it goes, some things are meant to be</p>
+            <p id="line11">Take my hand, take my whole life too</p>
+            <p id="line12">For I can't help falling in love with you</p>
+            <p id="line13">For I can't help falling in love with you</p>
+        </div>
+        <div class="hearts">
+            <!-- Corazones animados -->
+            <div class="heart" style="left: 10%; animation-delay: 0s;">
+                <img src="corazon.png" alt="Corazón">
+            </div>
+            <div class="heart" style="left: 30%; animation-delay: 1s;">
+                <img src="corazon.png" alt="Corazón">
+            </div>
+            <div class="heart" style="left: 50%; animation-delay: 2s;">
+                <img src="corazon.png" alt="Corazón">
+            </div>
+            <div class="heart" style="left: 70%; animation-delay: 3s;">
+                <img src="corazon.png" alt="Corazón">
+            </div>
+            <div class="heart" style="left: 90%; animation-delay: 4s;">
+                <img src="corazon.png" alt="Corazón">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Definir los tiempos en los que cada línea debería ser resaltada
+        const lyrics = [
+            { time: 8, lineId: 'line1' },
+            { time: 23, lineId: 'line2' },
+            { time: 37, lineId: 'line3' },
+            { time: 50, lineId: 'line4' },
+            { time: 66, lineId: 'line5' },
+            { time: 71, lineId: 'line6' },
+            { time: 80, lineId: 'line7' },
+            { time: 95, lineId: 'line8' },
+            { time: 108, lineId: 'line9' },
+            { time: 118, lineId: 'line10' },
+            { time: 130, lineId: 'line11' },
+            { time: 142, lineId: 'line12' },
+            { time: 158, lineId: 'line13' },
+            // Ajusta los tiempos según la duración real de cada línea
+        ];
+
+        const audio = document.getElementById('audioPlayer');
+        const playButton = document.getElementById('playButton');
+
+        // Añadir evento de clic al botón de reproducción
+        playButton.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    playButton.textContent = 'Pause'; // Cambiar el texto del botón a 'Pause'
+                }).catch(error => {
+                    console.error("Error al intentar reproducir el audio:", error);
+                });
+            } else {
+                audio.pause();
+                playButton.textContent = 'Play'; // Cambiar el texto del botón a 'Play'
+            }
+        });
+
+        // Función para resaltar la línea actual
+        function highlightCurrentLine() {
+            const currentTime = audio.currentTime;
+            lyrics.forEach(lyric => {
+                const element = document.getElementById(lyric.lineId);
+                if (currentTime >= lyric.time) {
+                    element.classList.add('current-line');
+                    element.style.opacity = 1;
+                } else {
+                    element.classList.remove('current-line');
+                    element.style.opacity = 0.5; // Ajustar opacidad de las líneas no activas
+                }
+            });
+        }
+
+        // Actualizar la línea actual en intervalos regulares
+        audio.addEventListener('timeupdate', highlightCurrentLine);
+    </script>
+</body>
+</html>
