@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Can't Help Falling in Love</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" rel="stylesheet">
+    " rel="stylesheet">
     <style>
         body {
             background-image: url('fondo.jpg'); /* Cambia 'fondo.jpg' por la ruta de tu imagen */
@@ -24,14 +25,11 @@
         }
 
         .container {
-            text-align: center;
-            position: relative;
+            position: relative; /* Para que el corazón esté posicionado correctamente */
             width: 90%; /* Ajusta el ancho del contenedor */
             max-width: 800px; /* Tamaño máximo del contenedor */
-            height: auto; /* Ajusta la altura automáticamente */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            text-align: center;
+            z-index: 1; /* Asegura que el contenido esté por encima del corazón */
         }
 
         .lyrics {
@@ -73,41 +71,40 @@
             background-color: #666;
         }
 
-        /* Estilo para los corazones */
-        .hearts {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        /* Estilo para el corazón giratorio */
+        .heart-container {
+            position: absolute; /* Para que esté centrado dentro del contenedor */
+            top: 50%;
+            left: 50%;
+            width: 200px; /* Tamaño del contenedor del corazón */
+            height: 200px;
+            transform: translate(-50%, -50%); /* Centra el contenedor */
             pointer-events: none; /* Para que no interfiera con el clic en otros elementos */
-            overflow: hidden;
-            z-index: 50; /* Asegura que los corazones estén por debajo del contenido principal */
+            z-index: 0; /* Asegura que el corazón esté detrás del contenido principal */
         }
 
         .heart {
-            position: absolute;
-            width: 30px; /* Tamaño de los corazones */
-            height: 30px;
-            background-size: cover; /* Asegura que la imagen cubra el div */
-            opacity: 0;
-            animation: fall 5s linear infinite;
+            width: 100%;
+            height: 100%;
+            background: url('corazon.png') no-repeat center center;
+            background-size: contain;
+            animation: rotate-heart 5s linear infinite; /* Animación de rotación */
         }
 
-        @keyframes fall {
-            0% {
-                transform: translateY(-100px);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(calc(100vh + 50px));
-                opacity: 0;
-            }
+        /* Animación de rotación del corazón */
+        @keyframes rotate-heart {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="heart-container">
+            <div class="heart">
+                <img src="corazon.png" alt="Corazón">
+            </div>
+        </div>
         <button class="audio-button" id="playButton">Play</button>
         <audio id="audioPlayer">
             <source src="cancion.mp3" type="audio/mpeg">
@@ -127,24 +124,6 @@
             <p id="line11">Take my hand, take my whole life too</p>
             <p id="line12">For I can't help falling in love with you</p>
             <p id="line13">For I can't help falling in love with you</p>
-        </div>
-        <div class="hearts">
-            <!-- Corazones animados -->
-            <div class="heart" style="left: 10%; animation-delay: 0s;">
-                <img src="corazon.png" alt="Corazón">
-            </div>
-            <div class="heart" style="left: 30%; animation-delay: 1s;">
-                <img src="corazon.png" alt="Corazón">
-            </div>
-            <div class="heart" style="left: 50%; animation-delay: 2s;">
-                <img src="corazon.png" alt="Corazón">
-            </div>
-            <div class="heart" style="left: 70%; animation-delay: 3s;">
-                <img src="corazon.png" alt="Corazón">
-            </div>
-            <div class="heart" style="left: 90%; animation-delay: 4s;">
-                <img src="corazon.png" alt="Corazón">
-            </div>
         </div>
     </div>
 
