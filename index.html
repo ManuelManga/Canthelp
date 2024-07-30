@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Can't Help Falling in Love</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" rel="stylesheet">
-    " rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
         body {
             background-image: url('fondo.jpg'); /* Cambia 'fondo.jpg' por la ruta de tu imagen */
@@ -89,6 +88,7 @@
             background: url('corazon.png') no-repeat center center;
             background-size: contain;
             animation: rotate-heart 5s linear infinite; /* Animación de rotación */
+            cursor: grab; /* Cambia el cursor al pasar sobre el corazón */
         }
 
         /* Animación de rotación del corazón */
@@ -101,8 +101,8 @@
 <body>
     <div class="container">
         <div class="heart-container">
-            <div class="heart">
-                <img src="corazon.png" alt="Corazón">
+            <div class="heart" id="heart">
+                <!-- No es necesario usar <img> si estás usando background-image -->
             </div>
         </div>
         <button class="audio-button" id="playButton">Play</button>
@@ -148,6 +148,7 @@
 
         const audio = document.getElementById('audioPlayer');
         const playButton = document.getElementById('playButton');
+        const heart = document.getElementById('heart');
 
         // Añadir evento de clic al botón de reproducción
         playButton.addEventListener('click', () => {
@@ -166,20 +167,53 @@
         // Función para resaltar la línea actual
         function highlightCurrentLine() {
             const currentTime = audio.currentTime;
-            lyrics.forEach(lyric => {
+            let lineHighlighted = false;
+
+            lyrics.forEach((lyric, index) => {
                 const element = document.getElementById(lyric.lineId);
                 if (currentTime >= lyric.time) {
-                    element.classList.add('current-line');
+                    // Mostrar la línea actual y las anteriores
                     element.style.opacity = 1;
-                } else {
+                    element.classList.add('current-line');
+                    lineHighlighted = true;
+                } else if (lineHighlighted) {
+                    // Ocultar las siguientes líneas
+                    element.style.opacity = 0;
                     element.classList.remove('current-line');
-                    element.style.opacity = 0.5; // Ajustar opacidad de las líneas no activas
                 }
             });
         }
 
         // Actualizar la línea actual en intervalos regulares
         audio.addEventListener('timeupdate', highlightCurrentLine);
+
+        // Redirigir a YouTube cuando la canción termine
+        audio.addEventListener('ended', () => {
+            window.location.href = 'https://www.youtube.com/watch?v=VnDecNPfIxo'; // Redirige al enlace de YouTube
+        });
+
+        // Funcionalidad para arrastrar el corazón
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        heart.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - heart.getBoundingClientRect().left;
+            offsetY = e.clientY - heart.getBoundingClientRect().top;
+            heart.style.cursor = 'grabbing'; // Cambia el cursor a "agarrar"
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                heart.style.left = `${e.clientX - offsetX}px`;
+                heart.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            heart.style.cursor = 'grab'; // Cambia el cursor a "agarrar"
+        });
     </script>
 </body>
 </html>
